@@ -4,6 +4,7 @@ const app = express()
 const bodyParser = require('body-parser')
 
 const http = require('http');
+const { recursiveTest } = require('./app/helpers/helpers');
 const server = http.createServer(app);
 const port = 3000
 
@@ -15,7 +16,8 @@ app.use(bodyParser.json())
 app.get('/',(_,res)=>{
     res.send({
         status: "success",
-        status_code:200
+        status_code:200,
+        result: recursiveTest([7,88989813,41124,511,1])
     })
 })
 
