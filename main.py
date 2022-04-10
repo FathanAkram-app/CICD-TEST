@@ -1,5 +1,5 @@
 def hello():
-    return "hello"
+    return "Python is running"
 
 
 def bye():
