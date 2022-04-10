@@ -1,4 +1,4 @@
-name: GitHub Actions Example
+name: Docker Image CI
 on: push
 jobs:
   build:
