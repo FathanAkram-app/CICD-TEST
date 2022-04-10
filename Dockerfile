@@ -1,21 +1,10 @@
-FROM ubuntu:18.04
+FROM node:16.9.0-alpine
 
-RUN apt-get update
+COPY package.json /package.json
 
-RUN apt-get install python3 -y
+RUN npm install
 
-RUN apt-get install python3-pip -y
+COPY index.js /index.js
 
-ENV HOME /home
 
-COPY main.py /home/main.py
-
-STOPSIGNAL SIGTERM
-
-COPY requirements.txt /home/requirements.txt
-
-RUN pip3 install -r requirements.txt
-
-ENTRYPOINT [ "python3" ]
-
-CMD ["main.py"]
+CMD [ "node", "index.js" ]
