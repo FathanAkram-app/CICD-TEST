@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/FathanAkram-app/CICD-TEST/issues"
   },
-  "homepage": "https://github.com/FathanAkram-app/CICD-TEST#readme"
+  "homepage": "https://github.com/FathanAkram-app/CICD-TEST#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }
