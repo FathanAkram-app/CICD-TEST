@@ -6,5 +6,7 @@ RUN npm install
 
 COPY index.js /index.js
 
+COPY ./app /app
+
 
 CMD [ "node", "index.js" ]
