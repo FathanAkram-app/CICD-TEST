@@ -1,4 +1,0 @@
-Quality Passed : Yes
-
-Comments :
-here is where you type the QA comments

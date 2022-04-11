@@ -7,34 +7,16 @@ on:
     branches: [ QA ]
 
 jobs:
-  response:
+  checklist_job:
     runs-on: ubuntu-latest
+    name: Checklist job
     steps:
-      - run: sudo apt-get install python3-dev
-      - run: |
-          cd ...
-          output=$(python3 qa.py)
-          echo "::set-output name=response::$output"
-        id: message
-      - if: steps.message.outputs.response == 'NO'
-        run: exit "QA wont let the app pass the quality check"
-  merge_branch:
-    needs: response
-    name: Merge to production
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Merge branch 'QA' -> 'production'
-      uses: devmasx/merge-branch@v1.3.1
-      with:
-        type: now
-        from_branch: QA
-        target_branch: production
-        github_token: ${{ secrets.GHUB_TOKEN }}
-    
-    - uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: QA Phase passed
-        branch: production
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Checklist
+        uses: wyozi/contextual-qa-checklist-action@master
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          input-file: CHECKLIST.yml
 
 
