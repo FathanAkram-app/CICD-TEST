@@ -37,9 +37,8 @@ jobs:
         from_branch: test
         target_branch: QA
         github_token: ${{ secrets.GHUB_TOKEN }}
-    - run:
-      rm .gitignore 
-      mv merge-gitignore .gitignore
+    - run: rm .gitignore 
+    - run: mv merge-gitignore .gitignore
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: test passed
