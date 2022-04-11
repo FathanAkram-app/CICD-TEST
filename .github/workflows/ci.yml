@@ -31,7 +31,7 @@ jobs:
     - run: npm test
   docker_build:
     needs: node_test
-    name: docker build test
+    name: Docker Build, Push and Release a Docker container to Heroku. 
     
     runs-on: ubuntu-latest
 

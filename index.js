@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const http = require('http');
 const { recursiveTest } = require('./app/helpers/helpers');
 const server = http.createServer(app);
-const port = 3000
+const port = 80
 
 app.use(express.static(__dirname+'/public'));
 
