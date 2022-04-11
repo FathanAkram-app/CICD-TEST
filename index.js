@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express()
-
+require("dotenv").config()
 const bodyParser = require('body-parser')
 
 const http = require('http');
 const { recursiveTest } = require('./app/helpers/helpers');
 const server = http.createServer(app);
-const port = 80
+const port = process.env.PORT || 3000
 
 app.use(express.static(__dirname+'/public'));
 
@@ -25,5 +25,5 @@ app.get('/',(_,res)=>{
 
 server.listen(port, () => {
   console.log(`🚀 listening on port ${port} 🚀`)
-  
+
 })
