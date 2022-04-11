@@ -1,0 +1,5 @@
+paths:
+  "README.md":
+    - Did you remember to add code examples for newly added methods?
+    - Did you make sure that all the example code still functions as expected?
+    - Did you remember to update screenshots to match new updates?
