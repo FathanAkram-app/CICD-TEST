@@ -12,8 +12,9 @@ jobs:
     steps:
       - run: sudo apt-get install python3-dev
       - run: |
+          ls
           output=$(python3 .../qa.py)
-          echo echo "::set-output name=response::$output"
+          echo "::set-output name=response::$output"
         id: message
       - if: steps.message.outputs.response == 'NO'
         run: exit "QA wont let the app pass the quality check"
