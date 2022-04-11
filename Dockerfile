@@ -2,12 +2,12 @@ FROM node:16.9.0-alpine
 
 
 WORKDIR /var/www/node/
-COPY package.json /package.json
+COPY package.json /var/www/node/package.json
 
 RUN npm install
 
-COPY index.js /index.js
+COPY index.js /var/www/node/index.js
 
-COPY ./app /app
+COPY ./app /var/www/node/app
 
 CMD [ "node", "index.js" ]
