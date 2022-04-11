@@ -4,9 +4,8 @@ COPY package.json /package.json
 
 RUN npm install
 
-COPY index.js /index.js
+COPY index.js /var/www/node/index.js
 
-COPY ./app /app
-COPY Procfile /Procfile
+COPY ./app /var/www/node/app
 
 CMD [ "node", "index.js" ]
