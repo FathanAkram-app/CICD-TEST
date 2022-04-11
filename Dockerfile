@@ -1,13 +1,15 @@
 FROM node:16.9.0-alpine
 
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-WORKDIR /var/www/node/
-COPY package.json /var/www/node/package.json
+WORKDIR /home/node/app
 
-RUN npm install
+COPY package*.json ./
 
-COPY index.js /var/www/node/index.js
+USER node
 
-COPY ./app /var/www/node/app
+RUN npm install 
 
-CMD [ "node", "index.js" ]
+COPY --chown=node:node . .
+
+CMD [ "npm", "run", "start" ]
