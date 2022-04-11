@@ -16,6 +16,6 @@ jobs:
       - name: Checklist
         uses: ./
         with:
-          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          gh-token: ${{ secrets.GHUB_TOKEN }}
 
 
