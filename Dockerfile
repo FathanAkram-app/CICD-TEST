@@ -1,6 +1,6 @@
 FROM node:16.9.0-alpine
 
-COPY package.json /package.json
+COPY package.json /var/www/node/package.json
 
 RUN npm install
 
