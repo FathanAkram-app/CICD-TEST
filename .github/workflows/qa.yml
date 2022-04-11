@@ -12,8 +12,8 @@ jobs:
     steps:
       - run: sudo apt-get install python3-dev
       - run: |
-          echo ls
-          output=$(python3 .../qa.py)
+          cd ...
+          output=$(python3 qa.py)
           echo "::set-output name=response::$output"
         id: message
       - if: steps.message.outputs.response == 'NO'
