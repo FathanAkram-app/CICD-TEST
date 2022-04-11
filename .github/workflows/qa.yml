@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          sudo apt-get install python3-dev
           output=$(python3 qa.py)
           echo echo "::set-output name=response::$output"
         id: message
