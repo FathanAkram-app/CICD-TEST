@@ -14,7 +14,7 @@ jobs:
           output=$(python3 qa.py)
           echo echo "::set-output name=response::$output"
         id: message
-      - if: steps.message.outputs.response == NO
+      - if: steps.message.outputs.response == 'NO'
         run: exit "QA wont let the app pass the quality check"
   merge_branch:
     needs: response
