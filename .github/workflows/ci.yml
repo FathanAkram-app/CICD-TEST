@@ -29,7 +29,7 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    
+
     - name: Merge branch 'test' -> 'QA'
       uses: devmasx/merge-branch@v1.3.1
       with:
@@ -37,7 +37,7 @@ jobs:
         from_branch: test
         target_branch: QA
         github_token: ${{ secrets.GHUB_TOKEN }}
-    - run: |
+    - run:
       rm .gitignore 
       mv merge-gitignore .gitignore
     - uses: stefanzweifel/git-auto-commit-action@v4
