@@ -16,7 +16,7 @@ jobs:
         id: message
       - if: message.message.outputs.response == "NO"
         run: exit "QA wont let the app pass the quality check"
-  merge:
+  merge_branch:
     needs: response
     name: Merge to production
     runs-on: ubuntu-latest
