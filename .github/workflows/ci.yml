@@ -29,58 +29,32 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-  FoD-SAST-Scan:
 
-    runs-on: ubuntu-latest
+  Trigger_APIsec_scan:
     permissions:
-      actions: read
-      contents: read
-      security-events: write
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Check Out Source Code
-        uses: actions/checkout@v3
+       - name: APIsec scan
+         uses: apisec-inc/apisec-run-scan@f62d0c6fae8a80f97b091a323befdb56e6ad9993
+         with:
+          # The APIsec username with which the scans will be executed
+          apisec-username: ${{ secrets.apisec_username }}
+          # The Password of the APIsec user with which the scans will be executed
+          apisec-password: ${{ secrets.apisec_password}}
+          # The name of the project for security scan
+          apisec-project: "VAmPI"
+          # The name of the sarif format result file The file is written only if this property is provided.
+          sarif-result-file: "apisec-results.sarif"
+       - name: Import results
+         uses: github/codeql-action/upload-sarif@v2
+         with:
+          sarif_file: ./apisec-results.sarif
 
-
-      - name: Download Fortify ScanCentral Client
-        uses: fortify/gha-setup-scancentral-client@5b7382f8234fb9840958c49d5f32ae854115f9f3
-      - name: Package Code + Dependencies
-        run: scancentral package $PACKAGE_OPTS -o package.zip
-        env:
-          PACKAGE_OPTS: "-bt mvn"
-
-      - name: Download Fortify on Demand Universal CI Tool
-        uses: fortify/gha-setup-fod-uploader@6e6bb8a33cb476e240929fa8ebc739ff110e7433
-      - name: Perform SAST Scan
-        run: java -jar $FOD_UPLOAD_JAR -z package.zip -aurl $FOD_API_URL -purl $FOD_URL -rid "$FOD_RELEASE_ID" -tc "$FOD_TENANT" -uc "$FOD_USER" "$FOD_PAT" $FOD_UPLOADER_OPTS -n "$FOD_UPLOADER_NOTES"
-        env:
-          FOD_URL: "https://ams.fortify.com/"
-          FOD_API_URL: "https://api.ams.fortify.com/"
-          FOD_TENANT: ${{ secrets.FOD_TENANT }}
-          FOD_USER: ${{ secrets.FOD_USER }}
-          FOD_PAT: ${{ secrets.FOD_PAT }}
-          FOD_RELEASE_ID: ${{ secrets.FOD_RELEASE_ID }}
-          FOD_UPLOADER_OPTS: "-ep 2 -pp 0 -I 1 -apf"
-          FOD_UPLOADER_NOTES: 'Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})'
-
-      # Once scan completes, pull SAST issues from Fortify on Demand and generate SARIF output.
-      - name: Export results to GitHub-optimized SARIF
-        uses: fortify/gha-export-vulnerabilities@fcb374411cff9809028c911dabb8b57dbdae623b
-        with:
-          fod_base_url: "https://ams.fortify.com/"
-          fod_tenant: ${{ secrets.FOD_TENANT }}
-          fod_user: ${{ secrets.FOD_USER }}
-          fod_password: ${{ secrets.FOD_PAT }}
-          fod_release_id: ${{ secrets.FOD_RELEASE_ID }}
-
-      # Import Fortify on Demand results to GitHub Security Code Scanning
-      - name: Import Results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: ./gh-fortify-sast.sarif
   docker_build:
     name: Docker Build, Push and Release a Docker container to Heroku. 
-    needs: [node_test,FoD-SAST-Scan]
+    needs: [node_test,Trigger_APIsec_scan]
     runs-on: ubuntu-latest
 
     steps:
