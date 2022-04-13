@@ -30,31 +30,9 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
 
-  Trigger_APIsec_scan:
-    permissions:
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-    runs-on: ubuntu-latest
-
-    steps:
-       - name: APIsec scan
-         uses: apisec-inc/apisec-run-scan@f62d0c6fae8a80f97b091a323befdb56e6ad9993
-         with:
-          # The APIsec username with which the scans will be executed
-          apisec-username: ${{ secrets.APISEC_USERNAME }}
-          # The Password of the APIsec user with which the scans will be executed
-          apisec-password: ${{ secrets.APISEC_PASSWORD}}
-          # The name of the project for security scan
-          apisec-project: "VAmPI"
-          # The name of the sarif format result file The file is written only if this property is provided.
-          sarif-result-file: "apisec-results.sarif"
-       - name: Import results
-         uses: github/codeql-action/upload-sarif@v2
-         with:
-          sarif_file: ./apisec-results.sarif
-
   docker_build:
     name: Docker Build, Push and Release a Docker container to Heroku. 
-    needs: [node_test,Trigger_APIsec_scan]
+    needs: [node_test]
     runs-on: ubuntu-latest
 
     steps:
